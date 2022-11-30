@@ -1,0 +1,37 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class ChildCheckUpInfoStoreRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            'child_id' => ['required', 'exists:children,id'],
+            'weight' => ['required', 'numeric'],
+            'height' => ['required', 'numeric'],
+            'bmi' => ['required', 'numeric'],
+            'remarks' => ['required', 'max:255', 'string'],
+            'diagnosis' => ['required', 'max:255', 'string'],
+            'bario_physician_id' => ['required', 'exists:bario_physicians,id'],
+            'checkup_followup' => ['required', 'date'],
+        ];
+    }
+}
