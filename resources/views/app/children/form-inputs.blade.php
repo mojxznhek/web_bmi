@@ -56,11 +56,23 @@
     <x-inputs.group class="col-sm-12 col-lg-6">
         <x-inputs.date
             name="dob"
+            id="dob"
+            onChange="calculateAge()"
             label="Date Of Birth"
             value="{{ old('dob', ($editing ? optional($child->dob)->format('Y-m-d') : '')) }}"
             max="255"
             required
         ></x-inputs.date>
+    </x-inputs.group>
+
+        <x-inputs.group class="col-sm-12 col-lg-6">
+        <x-inputs.text
+            name="age"
+            label="Age"
+            value="{{ old('age', ($editing ? optional($child->age)->format('Y-m-d') : '')) }}"
+            max="255"
+            required
+        ></x-inputs.text>
     </x-inputs.group>
 
     <x-inputs.group class="col-sm-12 col-lg-6">
@@ -105,3 +117,32 @@
         ></x-inputs.text>
     </x-inputs.group>
 </div>
+
+<script>
+    
+    // dobInput.addEventListener('input', calculateAge);
+    function calculateAge () {
+    var userinput = document.getElementById("dob").value;  
+    var dob = new Date(userinput);  
+    if(userinput==null || userinput=='') {  
+      //document.getElementById("message").innerHTML = "**Choose a date please!";    
+      return false;   
+    } else {  
+      
+    //calculate month difference from current date in time  
+    var month_diff = Date.now() - dob.getTime();  
+      
+    //convert the calculated difference in date format  
+    var age_dt = new Date(month_diff);   
+      
+    //extract year from date      
+    var year = age_dt.getUTCFullYear();  
+      
+    //now calculate the age of the user  
+    var age = Math.abs(year - 1970);  
+      
+    //display the calculated age  
+    document.getElementById('age').value = age;  
+    }
+    }
+</script>
