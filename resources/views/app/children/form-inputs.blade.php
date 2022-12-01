@@ -69,9 +69,9 @@
         <x-inputs.text
             name="age"
             label="Age"
-            value="{{ old('age', ($editing ? optional($child->age)->format('Y-m-d') : '')) }}"
             max="255"
             required
+            disabled
         ></x-inputs.text>
     </x-inputs.group>
 

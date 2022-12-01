@@ -34,11 +34,22 @@ class HomeController extends Controller
          $medChild = User::select(DB::raw("COUNT(*) as count"), DB::raw("(created_at) as month_name"))
                     ->whereYear('created_at', date('Y'))
                     ->groupBy(DB::raw("(created_at)"))
-                    ->pluck('count', 'month_name');
- 
-        $labels = $medChild->keys();
-        $data = $medChild->values();
-              
+                    ->pluck('count', 'month_name');  
+
+        $childObese = ChildMedicalData::where('remarks','=','Obese');
+        $obese = $childObese->count();          
+        
+        $childNormal = ChildMedicalData::where('remarks','=','Normal');
+        $normal = $childNormal->count(); 
+
+        $childUnder= ChildMedicalData::where('remarks','=','Underweight');
+        $under = $childUnder->count();   
+
+        $childOver= ChildMedicalData::where('remarks','=','Overweight');
+        $over = $childOver->count();          
+        
+
+
          //count in cards
         $userCount = User::count();
         $childCount = Child::count();
@@ -50,8 +61,10 @@ class HomeController extends Controller
         'childCount' => $childCount,
         'rhuCount' => $rhuCount,
         'medCount' => $medCount,
-        'labels' => $labels,
-        'data' => $data,
+        'obese' =>$obese,
+        'normal' =>$normal,
+        'under' => $under,
+        'over' => $over,
         ]);
 
 

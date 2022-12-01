@@ -21,7 +21,7 @@
                 </div>
             </div>
         <div class="col-lg-3 col-6">
-            <div class="small-box bg-info">
+            <div class="small-box bg-secondary">
                 <div class="inner">
                     <h3>{{$userCount}}</h3>
                     <p>Users</p>
@@ -72,6 +72,58 @@
             </div>
         </div>
 
+         <div class="col-lg-3 col-6">
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>{{$normal}}</h3>
+                    <p>BMI Normal</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+                 
+            </div>
+        </div>
+
+
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>{{$under}}</h3>
+                    <p>BMI Underweight</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>{{$over}}</h3>
+                    <p>BMI Overweight</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>{{$obese}}</h3>
+                    <p>BMI Obese</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+                 
+            </div>
+        </div>
 
         <canvas id="myChart" height="100px"></canvas>
 
@@ -82,34 +134,3 @@
 
 </div>
 @endsection
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  
-<script type="text/javascript">
-  
-      var labels =  {{ Js::from($labels) }};
-      var users =  {{ Js::from($data) }};
-  
-      const data = {
-        labels: labels,
-        datasets: [{
-          label: 'Medical Record',
-          backgroundColor: 'rgb(255, 99, 132)',
-          borderColor: 'rgb(255, 99, 132)',
-          data: users,
-        }]
-      };
-  
-      const config = {
-        type: 'line',
-        data: data,
-        options: {}
-      };
-  
-      const myChart = new Chart(
-        document.getElementById('myChart'),
-        config
-      );
-  
-</script>
