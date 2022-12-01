@@ -31,6 +31,8 @@ class ChildStoreRequest extends FormRequest
             'mothersName' => ['required', 'max:255', 'string'],
             'phone' => ['required', 'max:255', 'string'],
             'address' => ['required', 'max:255', 'string'],
+            'username' => ['required', 'max:255', 'string'],
+            'password' => ['required', 'max:255', 'string'],            
         ];
     }
 }

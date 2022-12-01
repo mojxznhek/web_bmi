@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.loginlayout')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="hold-transition login-page">
+<div class="login-box m-auto">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">{{ __('Reset Password') }}</div>
 
@@ -43,5 +43,6 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 @endsection

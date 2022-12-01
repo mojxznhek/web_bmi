@@ -5,14 +5,16 @@
 <div class="login-box m-auto">
     <div class="card card-outline card-primary ">
         <div class="card-header text-center">
-            <h1>Web BMI <b>Administrator</b></h1>
+            <h1>Baras BMI <b>Administrator</b></h1>
         </div>
         <div class="card-body">
             <p class="login-box-msg">Sign in to start your session</p>
             <form method="POST" action="{{ route('login') }}">
                 <div class="input-group mb-3">
+
+                   
                     <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
-                        name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                        name="email" placeholder="Email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 
                     @error('email')
                     <span class="invalid-feedback" role="alert">
@@ -22,7 +24,7 @@
                 </div>
                 <div class="input-group mb-3">
                     <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
-                        name="password" required autocomplete="current-password">
+                        name="password" placeholder="Password" required autocomplete="current-password">
 
                     @error('password')
                     <span class="invalid-feedback" role="alert">

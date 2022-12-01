@@ -116,6 +116,30 @@
             required
         ></x-inputs.text>
     </x-inputs.group>
+
+    <x-inputs.group class="col-sm-12 col-lg-9">
+        <x-inputs.text
+            name="username"
+            label="Username"
+            :value="old('username', ($editing ? $child->username : ''))"
+            maxlength="255"
+            placeholder="Username"
+            required
+            autocomplete="off"
+        ></x-inputs.text>
+    </x-inputs.group>
+
+    <x-inputs.group class="col-sm-12 col-lg-9">
+        <x-inputs.password
+            name="password"
+            label="Password"
+            :value="old('password', ($editing ? $child->password : ''))"
+            maxlength="255"
+            placeholder="password"
+            required
+            autocomplete="off"
+        ></x-inputs.password>
+    </x-inputs.group>
 </div>
 
 <script>

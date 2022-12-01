@@ -42,13 +42,51 @@
 
         @endforeach
     </div> <!-- ./row -->
+ <div class="row">
+        <div class="col col-12">
+            <div class="card collapsed-card">
+                <div class="card-header bg-primary">
+                    <h3 class="card-title"> Child Progress </h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool text-white" data-card-widget="collapse"><i
+                                class="icon ion-md-add"></i>
+                        </button>
+                    </div>
+                    <!-- /.card-tools -->
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <span>https://aljism-arabic.blogspot.com/2017/03/bmi-chart-in-kg-and-cm-for-child.html</span>
+                    <p>Body mass index (BMI) is a person’s weight in kilograms divided by the square of height in
+                        meters. It is an inexpensive and easy way to screen for weight categories that may lead to
+                        health problems. For children and teens, BMI is age- and sex-specific and is often referred to
+                        as BMI-for-age.
+                        Regardless of the current BMI-for-age category, help your child or teen develop healthy weight
+                        habits and talk with your doctor or other healthcare provider as part of ongoing tracking of
+                        BMI-for-age. If your child has significant weight loss or gain, he or she should be referred to
+                        and guided by a doctor or other healthcare provider.
+                        Tracking growth patterns over time can help you make sure your child is achieving or maintaining
+                        a healthy weight. A single BMI-for-age calculation is not enough to evaluate long-term weight
+                        status because your child’s height and weight will change as they grow. With individuals, health
+                        care providers should consider BMI along with other factors such as family history, blood
+                        pressure, blood sugar levels, and eating patterns and physical activity level.</p>
 
+
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                    <span>https://www.cdc.gov/healthyweight/assessing/bmi/childrens_bmi/about_childrens_bmi.html</span>
+                </div>
+                <!-- /.card-footer -->
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
     <div class="row">
         <div class="col col-12">
             <div class="card collapsed-card">
                 <div class="card-header bg-primary">
                     <h3 class="card-title">BMI Information</h3>
-                    <h>Click + to view</h>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool text-white" data-card-widget="collapse"><i
                                 class="icon ion-md-add"></i>
@@ -85,6 +123,8 @@
             <!-- /.card -->
         </div>
     </div>
+
+   
 
 </div>  
 @endsection
