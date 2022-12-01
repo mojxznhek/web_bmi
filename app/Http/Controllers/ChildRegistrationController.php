@@ -21,7 +21,7 @@ class ChildRegistrationController extends Controller
     }
     public function index()
     {
-        //
+        return view('app.login_children.activation');
     }
 
 
@@ -94,7 +94,7 @@ class ChildRegistrationController extends Controller
             // $child = Child::create($validated);
 
             return redirect()
-                ->route('home')
+                ->route('activation')
                 ->withSuccess(__('crud.common.created'));
             }
     }

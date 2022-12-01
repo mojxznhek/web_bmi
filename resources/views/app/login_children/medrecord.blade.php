@@ -6,11 +6,12 @@
         @foreach($medrecord as $key => $data)
         @if ($medrecord->count() > 0 )
         <div class="col col-6">
-            <div class="card">
+            <div class="card colapsed-card">
                 <div class="card-body">
                     <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">Medical Record</h3>
+
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -45,14 +46,32 @@
 
     <div class="row">
         <div class="col col-12">
-            <div class="card ">
-                <div class="card-header bg-info">
-                    <h3 class="card-title">BMI Information</h3>
+            <div class="card card-primary collapsed-card">
+                <div class="card-header">
+                    <h3 class="card-title">Expandable</h3>
                     <div class="card-tools">
-                        <!-- Buttons, labels, and many other things can be placed here! -->
-                        <!-- Here is a label for example -->
-
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
+                                class="fas fa-plus"></i>
+                        </button>
                     </div>
+
+                </div>
+
+                <div class="card-body">
+                    The body of the card
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card ">
+            <div class="card-header bg-info ">
+                <h3 class="card-title">BMI Information</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <ion class="nav-icon icon ion-md-woman"></ion>
+                    </button>
                     <!-- /.card-tools -->
                 </div>
                 <!-- /.card-header -->

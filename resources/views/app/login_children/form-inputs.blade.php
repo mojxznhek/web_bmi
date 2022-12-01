@@ -4,7 +4,6 @@
     <x-inputs.group class="col-sm-12">
         <div x-data="imageViewer('{{ $editing && $child->photo ? \Storage::url($child->photo) : '' }}')">
             <x-inputs.partials.label name="photo" label="Photo"></x-inputs.partials.label><br />
-
             <!-- Show the image -->
             <template x-if="imageUrl">
                 <img :src="imageUrl" class="object-cover rounded border border-gray-200"

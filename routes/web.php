@@ -100,9 +100,9 @@ Route::prefix('/')
     });
 
 
-Route::get('/register',  [ChildRegistrationController::class, 'create'])->name('register');
+Route::get('/register',[ChildRegistrationController::class, 'create'])->name('register');
 Route::post('register',[ChildRegistrationController::class, 'store'])->name('child-register');
-
+Route::get('/activation',[ChildRegistrationController::class, 'index'])->name('activation');
 
 
 // Route::get('/login', 'SessionsController@create');

@@ -45,13 +45,14 @@
 
     <div class="row">
         <div class="col col-12">
-            <div class="card ">
-                <div class="card-header bg-info">
+            <div class="card collapsed-card">
+                <div class="card-header bg-primary">
                     <h3 class="card-title">BMI Information</h3>
+                    <h>Click + to view</h>
                     <div class="card-tools">
-                        <!-- Buttons, labels, and many other things can be placed here! -->
-                        <!-- Here is a label for example -->
-
+                        <button type="button" class="btn btn-tool text-white" data-card-widget="collapse"><i
+                                class="icon ion-md-add"></i>
+                        </button>
                     </div>
                     <!-- /.card-tools -->
                 </div>
@@ -85,5 +86,5 @@
         </div>
     </div>
 
-</div>
+</div>  
 @endsection
