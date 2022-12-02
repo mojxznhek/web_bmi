@@ -31,10 +31,6 @@
         
         <!-- Small Ionicons Fixes for AdminLTE -->
         <style>
-        html {
-            background-color: #f4f6f9;
-        }
-        
         .nav-icon.icon:before {
             width: 25px;
         }
@@ -50,7 +46,7 @@
     
     <body>
         <div id="app" class="wrapper">
-            <main class="">
+            <main>
                 @yield('content')
             </main>
         </div>

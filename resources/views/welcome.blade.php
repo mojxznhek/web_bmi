@@ -45,19 +45,19 @@
     </head>
     <body>
         <div class="fixed px-6 py-4 sm:block">
-                <label class="h2">Baras Web Based Body Mass Index Monitoring System</label>    
+                <label class="h2">Baras Web Based Body Mass <br> Index Monitoring System</label>    
             </div>
     <div class="bg"></div>
-        <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
+        <div class="relative flex items-top justify-center bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
             @if (Route::has('login'))
                 <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                     @auth
                         <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 btn btn-primary">Home</a>
                     @else
-                        <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 btn btn-outline-primary pl-5 pr-5">Log in</a>
-
+                        <a href="{{ route('login') }}" class="text-xl text-white dark:text-white btn btn-primary pl-5 pr-5">Admin Log In</a>
+                        <a href="{{ route('login-form') }}" class="text-xl text-white dark:text-white btn btn-info pl-5 pr-5">Parent Log In</a>
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 btn btn-warning">Register your Child</a>
+                            <a href="{{ route('register') }}" class="text-xl text-gray-700 dark:text-gray-500 btn btn-warning">Register your Child</a>
                         @endif
                     @endauth
                 </div>

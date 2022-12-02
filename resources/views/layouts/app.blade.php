@@ -29,18 +29,7 @@
         <!-- Icons -->
         <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
         
-        <!-- Small Ionicons Fixes for AdminLTE -->
-        <style>
-        html {
-            background-color: #f4f6f9;
-        }
-        
-        .nav-icon.icon:before {
-            width: 25px;
-        }
-        </style>
-
-        
+        <!-- Small Ionicons Fixes for AdminLTE -->        
         <script type="module">
             import hotwiredTurbo from 'https://cdn.skypack.dev/@hotwired/turbo';
         </script>

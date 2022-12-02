@@ -29,8 +29,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-
-
          $medChild = User::select(DB::raw("COUNT(*) as count"), DB::raw("(created_at) as month_name"))
                     ->whereYear('created_at', date('Y'))
                     ->groupBy(DB::raw("(created_at)"))

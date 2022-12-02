@@ -7,6 +7,11 @@ use App\Models\Child;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\ChildRegistrationRequest;
 use Hash;
+use App\Models\User;
+use App\Models\RhuBhw;
+use App\Models\ChildMedicalData;
+use DB;
+use Carbon\Carbon;
 
 class ChildRegistrationController extends Controller
 {
@@ -17,16 +22,101 @@ class ChildRegistrationController extends Controller
      */
         public function __construct()
     {
-        $this->middleware('guest');
+       
+        //  $this->middleware('child');
     }
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('app.login_children.register');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+            $validated = $this->validator($request);
+
+            if ($request->hasFile('photo')) {
+                $validated['photo'] = $request->file('photo')->store('public');
+            }
+            if($validated == false){
+                Child::create([
+                    'completename' => $request['completename'],
+                    'photo' => $request['photo'],
+                    'dob' => $request['dob'],
+                    'gender' => $request['gender'],
+                    'mothersName' => $request['gender'],
+                    'address' => $request['address'],
+                    'phone' => $request['phone'],
+                    'username' => $request['username'],
+                    'password' => Hash::make($request['password']),
+                ]);
+            // $child = Child::create($validated);
+            return redirect()
+                ->route('activation')
+                ->withSuccess(__('crud.common.created'));
+            }
+    }
+
+   
     public function index()
     {
-        return view('app.login_children.activation');
+         return view('app.login_children.index');
     }
 
+    public function activation()
+    {
+         return view('app.login_children.activation');
+    }
+
+    public function childDashboard(){
+         $medChild = User::select(DB::raw("COUNT(*) as count"), DB::raw("(created_at) as month_name"))
+                    ->whereYear('created_at', date('Y'))
+                    ->groupBy(DB::raw("(created_at)"))
+                    ->pluck('count', 'month_name');  
+
+        $childObese = ChildMedicalData::where('remarks','=','Obese');
+        $obese = $childObese->count();          
+        
+        $childNormal = ChildMedicalData::where('remarks','=','Normal');
+        $normal = $childNormal->count(); 
+
+        $childUnder= ChildMedicalData::where('remarks','=','Underweight');
+        $under = $childUnder->count();   
+
+        $childOver= ChildMedicalData::where('remarks','=','Overweight');
+        $over = $childOver->count();          
+        
 
 
-     public function validator(Request $request)
+         //count in cards
+        $userCount = User::count();
+        $childCount = Child::count();
+        $rhuCount = RhuBhw::count();
+        $rhuCount = RhuBhw::count();
+        $medCount = ChildMedicalData::count();
+        return view('app.login_children.index',[
+        'userCount' => $userCount,
+        'childCount' => $childCount,
+        'rhuCount' => $rhuCount,
+        'medCount' => $medCount,
+        'obese' =>$obese,
+        'normal' =>$normal,
+        'under' => $under,
+        'over' => $over,
+        ]);
+    }    
+
+      public function validator(Request $request)
     {
         //validation rules.
         $rules = [
@@ -49,98 +139,5 @@ class ChildRegistrationController extends Controller
         
         //validate the request.
         $request->validate($rules,$messages);
-    }
-
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('app.login_children.register');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-            $validated = $this->validator($request);
-            if ($request->hasFile('photo')) {
-                $validated['photo'] = $request->file('photo')->store('public');
-            }
-
-
-            if($validated == false){
-                Child::create([
-                    'completename' => $request['completename'],
-                    'photo' => $request['photo'],
-                    'dob' => $request['dob'],
-                    'gender' => $request['gender'],
-                    'mothersName' => $request['gender'],
-                    'address' => $request['address'],
-                    'phone' => $request['phone'],
-                    'username' => $request['username'],
-                    'password' => Hash::make($request['password']),
-                ]);
-
-
-
-            // $child = Child::create($validated);
-
-            return redirect()
-                ->route('activation')
-                ->withSuccess(__('crud.common.created'));
-            }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

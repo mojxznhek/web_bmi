@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
@@ -10,7 +11,8 @@ use App\Http\Controllers\HealthCategoryController;
 use App\Http\Controllers\ChildMedicalDataController;
 use App\Http\Controllers\ChildListMedicalRecordsController;
 use App\Http\Controllers\ChildRegistrationController;
-
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,13 +28,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes(['register' => false]);
+Auth::routes(
+    ['register' => false],
+);
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Route::prefix('/')
-    ->middleware('auth')
-    ->group(function () {
+// Route::prefix('/')
+//     ->middleware('auth')
+//     ->group(function () {
+Route::group(['middleware' => 'auth:web','auth'], function () {
         Route::resource('children', ChildController::class);
         Route::resource('view-medical', ChildListMedicalRecordsController::class);
 
@@ -99,12 +104,37 @@ Route::prefix('/')
         Route::resource('users', UserController::class);
     });
 
+/*
+*Pre Registration
+*/
+Route::get('/register',[ChildRegistrationController::class, 'create'])->name('register'); //form of registration
+Route::post('register',[ChildRegistrationController::class, 'store'])->name('child-register'); //saving route for registration
+Route::get('/activation',[ChildRegistrationController::class, 'activation'])->name('activation'); // redirect to thank you page
 
-Route::get('/register',[ChildRegistrationController::class, 'create'])->name('register');
-Route::post('register',[ChildRegistrationController::class, 'store'])->name('child-register');
-Route::get('/activation',[ChildRegistrationController::class, 'index'])->name('activation');
+/*
+*View Login Form and Submit Parent/Child
+*/
+Route::get('/login/parent',[LoginController::class, 'showParentLoginForm'])->name('login-form'); //show form
+Route::post('parent',[LoginController::class,'parentLogin'])->name('parent'); //Route to authenticate parent/child login
 
 
-// Route::get('/login', 'SessionsController@create');
-// Route::post('/login', 'SessionsController@store');
-// Route::get('/logout', 'SessionsController@destroy');
+/*
+*Middleware for child view
+*/
+Route::group(['middleware' => 'auth:child'], function () {
+    Route::get('/parent/home', [ChildRegistrationController::class, 'childDashboard'])->name('parent-home');
+});
+
+
+
+
+Route::get('/clear', function() {
+    Artisan::call('cache:clear');
+    Artisan::call('config:clear');
+    Artisan::call('config:cache');
+    Artisan::call('view:clear');
+    Artisan::call('route:clear');
+
+    return "Cleared!";
+
+});

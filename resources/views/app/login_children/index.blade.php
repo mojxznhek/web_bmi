@@ -1,168 +1,135 @@
-@extends('layouts.app')
+@extends('layouts.childlayout')
 
 @section('content')
+
 <div class="container">
-    <div class="searchbar mt-0 mb-4">
-        <div class="row">
-            <div class="col-md-6">
-                <form>
-                    <div class="input-group">
-                        <input
-                            id="indexSearch"
-                            type="text"
-                            name="search"
-                            placeholder="{{ __('crud.common.search') }}"
-                            value="{{ $search ?? '' }}"
-                            class="form-control"
-                            autocomplete="off"
-                        />
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="icon ion-md-search"></i>
-                            </button>
-                        </div>
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">{{ __('Dashboard') }}</div>
+
+                <div class="card-body">
+                    @if (session('status'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('status') }}
                     </div>
-                </form>
-            </div>
-            <div class="col-md-6 text-right">
-                @can('create', App\Models\Child::class)
-                <a
-                    href="{{ route('children.create') }}"
-                    class="btn btn-primary"
-                >
-                    <i class="icon ion-md-add"></i> @lang('crud.common.create')
-                </a>
-                @endcan
+                    @endif
+
+                    {{ __('You are logged in!') }} , {{ Auth::user()->name }}
+                </div>
             </div>
         </div>
-    </div>
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-secondary">
+                <div class="inner">
+                    <h3>{{$userCount}}</h3>
+                    <p>Users</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
 
-    <div class="card">
-        <div class="card-body">
-            <div style="display: flex; justify-content: space-between;">
-                <h4 class="card-title">@lang('crud.children.index_title')</h4>
-            </div>
-
-            <div class="table-responsive">
-                <table class="table table-borderless table-hover">
-                    <thead>
-                        <tr>
-                            <th class="text-left">
-                                @lang('crud.children.inputs.photo')
-                            </th>
-                            <th class="text-left">
-                                @lang('crud.children.inputs.completename')
-                            </th>
-                            <th class="text-left">
-                                @lang('crud.children.inputs.dob')
-                            </th>
-                            <th class="text-left">
-                                @lang('crud.children.inputs.gender')
-                            </th>
-                            <th class="text-left">
-                                @lang('crud.children.inputs.mothersName')
-                            </th>
-                            <th class="text-right">
-                                @lang('crud.children.inputs.phone')
-                            </th>
-                            <th class="text-left">
-                                @lang('crud.children.inputs.address')
-                            </th>
-                            <th class="text-center">
-                                @lang('crud.common.actions')
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($children as $child)
-                        <tr>
-                            <td>
-                                <x-partials.thumbnail
-                                    src="{{ $child->photo ? \Storage::url($child->photo) : '' }}"
-                                />
-                            </td>
-                            <td>{{ $child->completename ?? '-' }}</td>
-                            <td>{{ $child->dob ?? '-' }}</td>
-                            <td>{{ $child->gender ?? '-' }}</td>
-                            <td>{{ $child->mothersName ?? '-' }}</td>
-                            <td>{{ $child->phone ?? '-' }}</td>
-                            <td>{{ $child->address ?? '-' }}</td>
-                            <td class="text-center" style="width: 134px;">
-                                <div
-                                    role="group"
-                                    aria-label="Row Actions"
-                                    class="btn-group"
-                                >
-                                    @can('update', $child)
-                                    <a
-                                        href="{{ route('children.edit', $child) }}"
-                                    >
-                                        <button
-                                            type="button"
-                                            class="btn btn-light"
-                                        >
-                                            <i class="icon ion-md-create"></i>
-                                        </button>
-                                    </a>
-                                    
-                                    @endcan 
-                                    
-                                    @can('view', $child)
-                                    <a
-                                        href="{{ route('view-medical.show', $child) }}"
-                                    >
-                                        <button
-                                            type="button"
-                                            class="btn btn-light"
-                                        >
-                                            <i class="icon ion-md-stats"></i>
-                                        </button>
-                                    </a>
-                                    @endcan @can('view', $child)
-                                    <a
-                                        href="{{ route('children.show', $child) }}"
-                                    >
-                                        <button
-                                            type="button"
-                                            class="btn btn-light"
-                                        >
-                                            <i class="icon ion-md-eye"></i>
-                                        </button>
-                                    </a>
-                                    @endcan @can('delete', $child)
-                                    <form
-                                        action="{{ route('children.destroy', $child) }}"
-                                        method="POST"
-                                        onsubmit="return confirm('{{ __('crud.common.are_you_sure') }}')"
-                                    >
-                                        @csrf @method('DELETE')
-                                        <button
-                                            type="submit"
-                                            class="btn btn-light text-danger"
-                                        >
-                                            <i class="icon ion-md-trash"></i>
-                                        </button>
-                                    </form>
-                                    @endcan
-                                </div>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="8">
-                                @lang('crud.common.no_items_found')
-                            </td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="8">{!! $children->render() !!}</td>
-                        </tr>
-                    </tfoot>
-                </table>
             </div>
         </div>
+
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-success">
+                <div class="inner">
+                    <h3>{{$childCount}}</h3>
+                    <p>Child Data</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-stats-bars"></i>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h3>{{$rhuCount}}</h3>
+                    <p>Health Workers</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-danger">
+                <div class="inner">
+                    <h3>{{$medCount}}</h3>
+                    <p>Medical Records</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>{{$normal}}</h3>
+                    <p>BMI Normal</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>{{$under}}</h3>
+                    <p>BMI Underweight</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>{{$over}}</h3>
+                    <p>BMI Overweight</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>{{$obese}}</h3>
+                    <p>BMI Obese</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+
+            </div>
+        </div>
+
+        <canvas id="myChart" height="100px"></canvas>
+
+
     </div>
+</div>
+
+
 </div>
 @endsection
