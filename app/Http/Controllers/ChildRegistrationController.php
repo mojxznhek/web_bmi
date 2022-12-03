@@ -10,8 +10,11 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\RhuBhw;
 use App\Models\ChildMedicalData;
+use App\Models\HealthTips;
 use DB;
 use Carbon\Carbon;
+use Auth;
+use App\Charts\ChildCharts;
 
 class ChildRegistrationController extends Controller
 {
@@ -77,41 +80,77 @@ class ChildRegistrationController extends Controller
          return view('app.login_children.activation');
     }
 
-    public function childDashboard(){
-         $medChild = User::select(DB::raw("COUNT(*) as count"), DB::raw("(created_at) as month_name"))
-                    ->whereYear('created_at', date('Y'))
-                    ->groupBy(DB::raw("(created_at)"))
-                    ->pluck('count', 'month_name');  
+    public function childDashboard(Request $id){
 
-        $childObese = ChildMedicalData::where('remarks','=','Obese');
-        $obese = $childObese->count();          
+         $childId = Child::find(Auth::user()->id);
+
+        //  bar chart for weight
+         $labelerCheckup = ChildMedicalData::select('*')
+                    ->groupBy(\DB::raw("strftime('%d',checkup_followup)"))
+                    ->orderBy('checkup_followup', 'ASC')
+                    ->get(); 
+
+        $cusLabelPerMonth = []; //create an empty array to store custom label
+        foreach($labelerCheckup as $weight)
+        {
+             $month =   Carbon::parse($weight->checkup_followup)->format('M-d-Y');
+             array_push($cusLabelPerMonth,$month);
+        }
+
+        $chartPieWeight = new ChildCharts();    //Extends Charts/UserLineChar/ class     
+        $chartPieWeight->labels($cusLabelPerMonth);
+        $childWeight = ChildMedicalData::select('weight')
+                    ->where('child_id', '=', $childId->id)
+                    ->groupBy(\DB::raw("strftime('%d',checkup_followup)"))
+                    ->pluck('weight');
+        $chartPieWeight->dataset('Child Weight', 'bar',$childWeight)
+        ->options([
+            'fill' => 'true',
+            'borderColor' => '#51C1C0'
+        ])
+        ->color(collect(['#7d5fff','#32ff7e', '#ff4d4d','#8C1C51','#48DBCC','#D6E785']))
+        ->backgroundColor(collect(['#7158e2','#3ae374', '#ff3838','#8C1C51','#48DBCC','#D6E785']));
+        //  line chart for remarks
+        $labelerRemarks = ChildMedicalData::select('*')
+                    ->groupBy('remarks')
+                    // ->orderBy('checkup_followup', 'ASC')
+                    ->get(); 
+
+        $cusLabelPerRemarks = []; //create an empty array to store custom label
+        foreach($labelerRemarks as $child)
+        {
+            //  $month =   Carbon::parse($child->checkup_followup)->format('M-d-Y');
+              array_push($cusLabelPerRemarks,$child->remarks);
+            //  array_push($cusLabelPerRemarks,$month);
+        }
+
+        $chartPieRemarks = new ChildCharts();    //Extends Charts/UserLineChar/ class     
+        $chartPieRemarks->labels($cusLabelPerRemarks);
+        $childRemarks = ChildMedicalData::select(\DB::raw("COUNT(remarks) as count"))
+            ->where('child_id', '=', $childId->id)
+            ->groupBy(\DB::raw('remarks')) //uncomment if using sqlite                     
+            ->pluck('count');      
+        $chartPieRemarks->dataset('Child BMI', 'pie',$childRemarks)
+        ->options([
+            'fill' => 'true',
+            'borderColor' => '#51C1C0'
+        ])
+        ->color(collect(['#7d5fff','#32ff7e', '#ff4d4d','#8C1C51','#48DBCC','#D6E785']))
+        ->backgroundColor(collect(['#7158e2','#3ae374', '#ff3838','#8C1C51','#48DBCC','#D6E785']));
+        //end of pi chart
         
-        $childNormal = ChildMedicalData::where('remarks','=','Normal');
-        $normal = $childNormal->count(); 
-
-        $childUnder= ChildMedicalData::where('remarks','=','Underweight');
-        $under = $childUnder->count();   
-
-        $childOver= ChildMedicalData::where('remarks','=','Overweight');
-        $over = $childOver->count();          
-        
 
 
-         //count in cards
-        $userCount = User::count();
-        $childCount = Child::count();
-        $rhuCount = RhuBhw::count();
-        $rhuCount = RhuBhw::count();
-        $medCount = ChildMedicalData::count();
+
+        //Retirieved suggested meals based on recommendation
+
+        $healthTips = HealthTips::select('*')
+            ->where('content',"LIKE","%Ob%")
+            ->get();
         return view('app.login_children.index',[
-        'userCount' => $userCount,
-        'childCount' => $childCount,
-        'rhuCount' => $rhuCount,
-        'medCount' => $medCount,
-        'obese' =>$obese,
-        'normal' =>$normal,
-        'under' => $under,
-        'over' => $over,
+        'childPieWeight' => $chartPieWeight,
+         'childPieRemarks' => $chartPieRemarks,
+        'healthTips' => $healthTips,
         ]);
     }    
 
