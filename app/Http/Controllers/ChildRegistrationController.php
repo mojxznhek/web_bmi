@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Child;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Requests\ChildRegistrationRequest;
-use Hash;
+use App\Http\Requests\ChildStoreRequest;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\RhuBhw;
 use App\Models\ChildMedicalData;
@@ -41,30 +41,29 @@ class ChildRegistrationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ChildStoreRequest $request)
     {
-            $validated = $this->validator($request);
-
+            $validated = $request->validated();
             if ($request->hasFile('photo')) {
                 $validated['photo'] = $request->file('photo')->store('public');
             }
-            if($validated == false){
-                Child::create([
-                    'completename' => $request['completename'],
-                    'photo' => $request['photo'],
-                    'dob' => $request['dob'],
-                    'gender' => $request['gender'],
-                    'mothersName' => $request['gender'],
-                    'address' => $request['address'],
-                    'phone' => $request['phone'],
-                    'username' => $request['username'],
-                    'password' => Hash::make($request['password']),
-                ]);
-            // $child = Child::create($validated);
+            // if($validated == false){
+            //     Child::create([
+            //         'completename' => $request['completename'],
+            //         'photo' => $request['photo'],
+            //         'dob' => $request['dob'],
+            //         'gender' => $request['gender'],
+            //         'mothersName' => $request['gender'],
+            //         'address' => $request['address'],
+            //         'phone' => $request['phone'],
+            //         'username' => $request['username'],
+            //         'password' => Hash::make($request['password']),
+            //     ]);
+            $child = Child::create($validated);
             return redirect()
                 ->route('activation')
                 ->withSuccess(__('crud.common.created'));
-            }
+            
     }
 
    
@@ -127,7 +126,7 @@ class ChildRegistrationController extends Controller
             'mothersName' => ['required', 'max:255', 'string'],
             'phone' => ['required', 'max:255', 'string'],
             'address' => ['required', 'max:255', 'string'],
-            'usernmae' => ['unique', 'max:255', 'string'],
+            'username' => [ 'unique:children,username', 'max:255', 'string'],
             'password' => 'required|same:confirm-password',
 
         ];

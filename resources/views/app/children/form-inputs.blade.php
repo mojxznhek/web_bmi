@@ -80,7 +80,6 @@
             @php $selected = old('gender', ($editing ? $child->gender : '')) @endphp
             <option value="male" {{ $selected == 'male' ? 'selected' : '' }} >Male</option>
             <option value="female" {{ $selected == 'female' ? 'selected' : '' }} >Female</option>
-            <option value="other" {{ $selected == 'other' ? 'selected' : '' }} >Other</option>
         </x-inputs.select>
     </x-inputs.group>
 
@@ -117,7 +116,7 @@
         ></x-inputs.text>
     </x-inputs.group>
 
-    <x-inputs.group class="col-sm-12 col-lg-9">
+    <x-inputs.group class="col-sm-12 col-lg-12">
         <x-inputs.text
             name="username"
             label="Username"
@@ -129,7 +128,7 @@
         ></x-inputs.text>
     </x-inputs.group>
 
-    <x-inputs.group class="col-sm-12 col-lg-9">
+    <x-inputs.group class="col-sm-12 col-lg-12">
         <x-inputs.password
             name="password"
             label="Password"
@@ -139,6 +138,11 @@
             required
             autocomplete="off"
         ></x-inputs.password>
+    </x-inputs.group>
+
+     <x-inputs.group class="col-sm-12 col-lg-12">
+      <x-inputs.password name="confirm-password" label="Confirm Password" :value="old('confirm-password', ($editing ? $child->confirm : ''))"
+            maxlength="255" placeholder="Confirm Password" required></x-inputs.password>
     </x-inputs.group>
 </div>
 

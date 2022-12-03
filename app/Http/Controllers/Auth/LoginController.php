@@ -46,11 +46,11 @@ class LoginController extends Controller
     {
         $this->validator($request);
         $credentials = $request->only('username', 'password');
+
       
         //$credentials = $request->only('email', 'password'); //use if email authentication is used
          if (Auth::guard('child')->attempt($credentials, $request->get('remember'))){
             return redirect()->intended('/parent/home');
-            
         }else{
             //  $status = 'Password credentials do not match our records.';  
              return back()->withInput($request->only('username', 'remember'));
@@ -59,7 +59,7 @@ class LoginController extends Controller
     
     public function showParentLoginForm()
     {
-        return view('app.login_children.login', ['url' => 'child']);
+        return view('app.login_children.login', ['url' => 'child-access']);
     }
 
 

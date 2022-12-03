@@ -17,12 +17,8 @@ class ChildMiddleware
     public function handle(Request $request, Closure $next)
     {
       
-        if(auth()->child()->isActive == 1) { 
-            return $next($request);
+       if (! $request->expectsJson()) {
+            return route('login-form');
         }
-         return redirect('parent-home')->with('error','You have not admin access');
-        //  if (! $request->expectsJson()) {
-        //     return route('');
-        // }
     }
 }
