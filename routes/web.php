@@ -122,7 +122,7 @@ Route::post('parent',[LoginController::class,'parentLogin'])->name('parent'); //
 *Middleware for child view
 */
 Route::group(['middleware' => 'auth:child'], function () {
-    Route::get('/parent/home', [ChildRegistrationController::class, 'childDashboard'])->name('parent-home');
+    Route::get('/parent/home/', [ChildRegistrationController::class, 'childDashboard'])->name('parent-home');
 });
 
 
