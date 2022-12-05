@@ -86,8 +86,8 @@ class ChildRegistrationController extends Controller
 
         //  bar chart for weight
          $labelerCheckup = ChildMedicalData::select('checkup_followup')
-                    ->groupBy(\DB::raw("strftime('%d',checkup_followup)")) //un comment if sqlite
-                    // ->groupBy('checkup_followup') /uncomment if mysql
+                    //->groupBy(\DB::raw("strftime('%d',checkup_followup)")) //un comment if sqlite
+                    ->groupBy('checkup_followup') //uncomment if mysql
                     ->orderBy('checkup_followup', 'ASC')
                     ->get(); 
 
@@ -102,8 +102,8 @@ class ChildRegistrationController extends Controller
         $chartPieWeight->labels($cusLabelPerMonth);
         $childWeight = ChildMedicalData::select('weight')
                     ->where('child_id', '=', $childId->id)
-                    ->groupBy(\DB::raw("strftime('%d',checkup_followup)")) //uncomment if sqlite
-                    //->groupBy('checkup_followup') //uncomment if mysql
+                    //->groupBy(\DB::raw("strftime('%d',checkup_followup)")) //uncomment if sqlite
+                    ->groupBy('checkup_followup') //uncomment if mysql
                     ->pluck('weight');
         $chartPieWeight->dataset('Child Weight', 'bar',$childWeight)
         ->options([
@@ -133,8 +133,8 @@ class ChildRegistrationController extends Controller
 
         $childRemarks = ChildMedicalData::select(\DB::raw("COUNT(remarks) as count"))
             ->where('child_id', '=', $childId->id)
-            // ->groupBy('remarks'); //uncomment if using mysql
-            ->groupBy(\DB::raw('remarks')) //uncomment if using sqlite                     
+            ->groupBy('remarks') //uncomment if using mysql
+            //->groupBy(\DB::raw('remarks')) //uncomment if using sqlite                     
             ->pluck('count');  
 
         $chartPieRemarks->dataset('Child BMI', 'pie',$childRemarks)
@@ -154,9 +154,9 @@ class ChildRegistrationController extends Controller
 
 
         //to work on tommorow need to fixl,
-        $medrecordRemarks = ChildMedicalData::select("*")
-            ->where("child_id",'=',$childId->id)
-            ->get();
+        // $medrecordRemarks = ChildMedicalData::select("*")
+        //     ->where("child_id",'=',$childId->id)
+        //     ->get();
 
         // dd($medrecordRemarks[2]->remarks);
 
@@ -200,40 +200,6 @@ class ChildRegistrationController extends Controller
              array_push($healthTipsUrl,$healthTips[0]->url);
         }
         // dd($healthTipsUrl);
-        //  $cusLabelPerRemarks = []; //create an empty array to store custom label
-        // foreach($labelerRemarks as $child)
-        // {
-        //     //  $month =   Carbon::parse($child->checkup_followup)->format('M-d-Y');
-        //       array_push($cusLabelPerRemarks,$child->remarks);
-        //     //  array_push($cusLabelPerRemarks,$month);
-        // }
-
-        //     $count = count($remarks);
-        //     for($counter=0,counter < $count,$counter++){
-        //         $healthTips = HealthTips::select('*')
-        //         ->where('content', 'LIKE',"%". $remarks[0]->remarks ."%")
-        //         ->get();
-        //     }
-        // dd($count);
-
-        // $healthTips = HealthTips::select('*')
-        //     ->where('description', 'LIKE',"%". $remarks ."%")
-        //     ->get();  
- 
-        // $healthNormal = HealthTips::select('*')
-        //     ->where('description',"LIKE","%" . "nor" . "%")
-        //     ->get();
-
-        //  $healthOver = HealthTips::select('*')
-        //     ->where('description',"LIKE","%" . "over" . "%")
-        //     ->get();
-
-        //  $healthUnder = HealthTips::select('*')
-        //     ->where('description',"LIKE","%" . "under" . "%")
-        //     ->get();
-      
-
-
         return view('app.login_children.index',[
         'childPieWeight' => $chartPieWeight,
         'childPieRemarks' => $chartPieRemarks,
