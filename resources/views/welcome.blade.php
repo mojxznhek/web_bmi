@@ -54,10 +54,10 @@
                     @auth
                         <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 btn btn-primary">Home</a>
                     @else
-                        <a href="{{ route('login') }}" class="text-xl text-white dark:text-white btn btn-primary pl-5 pr-5">Admin Log In</a>
-                        <a href="{{ route('login-form') }}" class="text-xl text-white dark:text-white btn btn-info pl-5 pr-5">Parent Log In</a>
+                        <a href="{{ route('login') }}" class="text-md text-white dark:text-white btn btn-primary pl-5 pr-5">Admin Log In</a>
+                        <a href="{{ route('login-form') }}" class="text-md text-white dark:text-white btn btn-info pl-5 pr-5">Parent Log In</a>
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="text-xl text-gray-700 dark:text-gray-500 btn btn-warning">Register your Child</a>
+                            <a href="{{ route('register') }}" class="text-md text-gray-700 dark:text-gray-500 btn btn-warning">Register your Child</a>
                         @endif
                     @endauth
                 </div>
