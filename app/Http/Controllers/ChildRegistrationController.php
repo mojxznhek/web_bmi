@@ -153,7 +153,7 @@ class ChildRegistrationController extends Controller
             ->get();
 
         //get all  remarks associated with child
-            $remarks = DB::table('child_medical_data')
+        $remarks = DB::table('child_medical_data')
                 ->select('remarks','child_id')
                 ->join('children', 'children.id', '=', 'child_medical_data.child_id')
                 ->where('child_id','=', $childId->id)
@@ -164,7 +164,7 @@ class ChildRegistrationController extends Controller
                 $healthTips = HealthTips::select('*')
                 ->where('content', 'LIKE', "%" . $data->remarks . "%")
                 ->get();
-             array_push($healthTipsUrl,$healthTips['1']->url);
+             array_push($healthTipsUrl,$healthTips->url);
         }
         // dd($healthTipsUrl);
         return view('app.login_children.index',[
