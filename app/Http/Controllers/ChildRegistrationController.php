@@ -103,7 +103,7 @@ class ChildRegistrationController extends Controller
         $childWeight = ChildMedicalData::select('*')
                     ->where('child_id', '=', $childId->id)
                     //->groupBy(\DB::raw("strftime('%d',checkup_followup)")) //uncomment if sqlite
-                    ->groupBy('checkup_followup') //uncomment if mysql
+                    // ->groupBy('checkup_followup') //uncomment if mysql
                     ->pluck('weight');
         $chartPieWeight->dataset('Child Weight', 'bar',$childWeight)
         ->options([
