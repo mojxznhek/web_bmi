@@ -52,8 +52,8 @@ class ChildListMedicalRecordsController extends Controller
         
         //=======================================================================================bar chart for weight
          $labelerCheckup = ChildMedicalData::select('checkup_followup')
-                    ->groupBy(\DB::raw("strftime('%d',checkup_followup)")) //un comment if sqlite
-                    // ->groupBy('checkup_followup') /uncomment if mysql
+                    //->groupBy(\DB::raw("strftime('%d',checkup_followup)")) //un comment if sqlite
+                    ->groupBy('checkup_followup') //uncomment if mysql
                     ->orderBy('checkup_followup', 'ASC')
                     ->get(); 
 
@@ -68,8 +68,8 @@ class ChildListMedicalRecordsController extends Controller
         $chartPieWeight->labels($cusLabelPerMonth);
         $childWeight = ChildMedicalData::select('weight')
                     ->where('child_id', '=', $id)
-                    ->groupBy(\DB::raw("strftime('%d',checkup_followup)")) //uncomment if sqlite
-                    //->groupBy('checkup_followup') //uncomment if mysql
+                    //->groupBy(\DB::raw("strftime('%d',checkup_followup)")) //uncomment if sqlite
+                    ->groupBy('checkup_followup') //uncomment if mysql
                     ->pluck('weight');
         $chartPieWeight->dataset('Child Weight', 'bar',$childWeight)
         ->options([
@@ -99,8 +99,8 @@ class ChildListMedicalRecordsController extends Controller
 
         $childRemarks = ChildMedicalData::select(\DB::raw("COUNT(remarks) as count"))
             ->where('child_id', '=', $id)
-            // ->groupBy('remarks'); //uncomment if using mysql
-            ->groupBy(\DB::raw('remarks')) //uncomment if using sqlite                     
+            ->groupBy('remarks') //uncomment if using mysql
+            //->groupBy(\DB::raw('remarks')) //uncomment if using sqlite                     
             ->pluck('count');  
 
         $chartPieRemarks->dataset('Child BMI', 'pie',$childRemarks)
