@@ -100,10 +100,10 @@ class ChildRegistrationController extends Controller
 
         $chartPieWeight = new ChildCharts();    //Extends Charts/UserLineChar/ class     
         $chartPieWeight->labels($cusLabelPerMonth);
-        $childWeight = ChildMedicalData::select('*')
+        $childWeight = ChildMedicalData::select('weight','checkup_followup')
                     ->where('child_id', '=', $childId->id)
                     //->groupBy(\DB::raw("strftime('%d',checkup_followup)")) //uncomment if sqlite
-                    // ->groupBy('checkup_followup') //uncomment if mysql
+                    ->groupBy('checkup_followup') //uncomment if mysql
                     ->pluck('weight');
         $chartPieWeight->dataset('Child Weight', 'bar',$childWeight)
         ->options([
@@ -115,7 +115,7 @@ class ChildRegistrationController extends Controller
         //end of bar chart
 
         //  line chart for remarks
-        $labelerRemarks = ChildMedicalData::select('*')
+        $labelerRemarks = ChildMedicalData::select('remarks')
                     ->groupBy('remarks')
                     // ->orderBy('checkup_followup', 'ASC')
                     ->get(); 
