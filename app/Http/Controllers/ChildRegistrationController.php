@@ -164,7 +164,7 @@ class ChildRegistrationController extends Controller
                 $healthTips = HealthTips::select('*')
                 ->where('content', 'LIKE', "%" . $data->remarks . "%")
                 ->get();
-             array_push($healthTipsUrl,$healthTips['0']->url);
+             array_push($healthTipsUrl,$healthTips['1']->url);
         }
         // dd($healthTipsUrl);
         return view('app.login_children.index',[
