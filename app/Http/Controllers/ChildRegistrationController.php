@@ -85,8 +85,9 @@ class ChildRegistrationController extends Controller
          $childId = Child::find(Auth::user()->id);
 
         //  bar chart for weight
-         $labelerCheckup = ChildMedicalData::select('*')
-                    ->groupBy(\DB::raw("strftime('%d',checkup_followup)"))
+         $labelerCheckup = ChildMedicalData::select('checkup_followup')
+                    ->groupBy(\DB::raw("strftime('%d',checkup_followup)")) //un comment if sqlite
+                    // ->groupBy('checkup_followup') /uncomment if mysql
                     ->orderBy('checkup_followup', 'ASC')
                     ->get(); 
 
@@ -101,7 +102,8 @@ class ChildRegistrationController extends Controller
         $chartPieWeight->labels($cusLabelPerMonth);
         $childWeight = ChildMedicalData::select('weight')
                     ->where('child_id', '=', $childId->id)
-                    ->groupBy(\DB::raw("strftime('%d',checkup_followup)"))
+                    ->groupBy(\DB::raw("strftime('%d',checkup_followup)")) //uncomment if sqlite
+                    //->groupBy('checkup_followup') //uncomment if mysql
                     ->pluck('weight');
         $chartPieWeight->dataset('Child Weight', 'bar',$childWeight)
         ->options([
@@ -110,6 +112,8 @@ class ChildRegistrationController extends Controller
         ])
         ->color(collect(['#7d5fff','#32ff7e', '#ff4d4d','#8C1C51','#48DBCC','#D6E785']))
         ->backgroundColor(collect(['#7158e2','#3ae374', '#ff3838','#8C1C51','#48DBCC','#D6E785']));
+        //end of bar chart
+
         //  line chart for remarks
         $labelerRemarks = ChildMedicalData::select('*')
                     ->groupBy('remarks')
@@ -125,11 +129,14 @@ class ChildRegistrationController extends Controller
         }
 
         $chartPieRemarks = new ChildCharts();    //Extends Charts/UserLineChar/ class     
-        $chartPieRemarks->labels($cusLabelPerRemarks);
+        $chartPieRemarks->labels($cusLabelPerRemarks); //array contains of custom of labels
+
         $childRemarks = ChildMedicalData::select(\DB::raw("COUNT(remarks) as count"))
             ->where('child_id', '=', $childId->id)
+            // ->groupBy('remarks'); //uncomment if using mysql
             ->groupBy(\DB::raw('remarks')) //uncomment if using sqlite                     
-            ->pluck('count');      
+            ->pluck('count');  
+
         $chartPieRemarks->dataset('Child BMI', 'pie',$childRemarks)
         ->options([
             'fill' => 'true',
@@ -140,17 +147,98 @@ class ChildRegistrationController extends Controller
         //end of pi chart
         
 
+          //medical record
+        $medrecord = ChildMedicalData::select("*")
+            ->where("child_id",'=',$childId->id)
+            ->get();
 
+
+        //to work on tommorow need to fixl,
+        $medrecordRemarks = ChildMedicalData::select("*")
+            ->where("child_id",'=',$childId->id)
+            ->get();
+
+        // dd($medrecordRemarks[2]->remarks);
 
         //Retirieved suggested meals based on recommendation
+        //  $healthObese = HealthTips::select('*')
+        //     ->where('description',"LIKE","%" .  $remarks->$remarks  . "%")
+        //     ->get();
 
-        $healthTips = HealthTips::select('*')
-            ->where('content',"LIKE","%Ob%")
-            ->get();
+        // $health = DB::table('child_medical_data')
+        //     ->select('remarks','child_id')
+        //     ->join('children', 'children.id', '=', 'child_medical_data.child_id')
+        //     ->where('child_id', $childId->id)
+        //     ->get();
+
+        //get all  remarks associated with child
+            $remarks = DB::table('child_medical_data')
+                ->select('remarks','child_id')
+                ->join('children', 'children.id', '=', 'child_medical_data.child_id')
+                ->where('child_id','=', $childId->id)
+                ->get();
+
+            // $healthTips = DB::table('health_tips')
+            // ->select('*' )
+            // ->join('child_medical_data', 'child_medical_data.child_id', '=', 'children.id')
+            // ->join('children', 'children.id', '=', 'child_medical_data.child_id')
+            // ->where('child_id','=', $childId->id)
+            // ->get();
+            // foreach($remarks as $data){
+            //     // $healthTips = HealthTips::select('*')
+            //     // ->where('content', 'LIKE', "%" . $data->remarks . "%")
+            //     // ->get();
+            // print_r($data->remarks);
+            // }
+
+        $healthTipsUrl = []; //create an empty array to store custom label
+        foreach($remarks as $data)
+        {
+                $healthTips = HealthTips::select('*')
+                ->where('content', 'LIKE', "%" . $data->remarks . "%")
+                ->get();
+             array_push($healthTipsUrl,$healthTips[0]->url);
+        }
+        // dd($healthTipsUrl);
+        //  $cusLabelPerRemarks = []; //create an empty array to store custom label
+        // foreach($labelerRemarks as $child)
+        // {
+        //     //  $month =   Carbon::parse($child->checkup_followup)->format('M-d-Y');
+        //       array_push($cusLabelPerRemarks,$child->remarks);
+        //     //  array_push($cusLabelPerRemarks,$month);
+        // }
+
+        //     $count = count($remarks);
+        //     for($counter=0,counter < $count,$counter++){
+        //         $healthTips = HealthTips::select('*')
+        //         ->where('content', 'LIKE',"%". $remarks[0]->remarks ."%")
+        //         ->get();
+        //     }
+        // dd($count);
+
+        // $healthTips = HealthTips::select('*')
+        //     ->where('description', 'LIKE',"%". $remarks ."%")
+        //     ->get();  
+ 
+        // $healthNormal = HealthTips::select('*')
+        //     ->where('description',"LIKE","%" . "nor" . "%")
+        //     ->get();
+
+        //  $healthOver = HealthTips::select('*')
+        //     ->where('description',"LIKE","%" . "over" . "%")
+        //     ->get();
+
+        //  $healthUnder = HealthTips::select('*')
+        //     ->where('description',"LIKE","%" . "under" . "%")
+        //     ->get();
+      
+
+
         return view('app.login_children.index',[
         'childPieWeight' => $chartPieWeight,
-         'childPieRemarks' => $chartPieRemarks,
-        'healthTips' => $healthTips,
+        'childPieRemarks' => $chartPieRemarks,
+        'healthObese' => $healthTipsUrl,
+        'medrecord' => $medrecord,
         ]);
     }    
 

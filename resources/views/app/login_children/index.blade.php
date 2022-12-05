@@ -39,28 +39,55 @@
             </div>
             {!! $childPieRemarks->script() !!}
         </div>
-        @if(!empty($healthTips))
-        @foreach ($healthTips as $tips)
-        <div class="col-md-3 lg-3 sm-3 mb-4">
-            <div class="card">
-                <div class="card-header"><b>Watch Videos related to: </b>{{ $tips->content }} <b> Weight</b></div>
-                <div class="embed-responsive embed-responsive-16by9">
-                    <iframe width="420" height="315" src="{{$tips->url}}" frameborder="0" allowfullscreen></iframe>
+
+
+
+        
+        <div class="row bg-gray-700 pt-4 mb-4">
+        <!-- Display MEdical Record -->
+            @foreach($medrecord as $key => $data)
+            @if ($medrecord->count() > 0 )
+            <div class="col-md-3 lg-3 sm-3 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title"> Date of Checkup:  <span>{{ $data->checkup_followup->format('M d,Y')}}</span></h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                               <b class="h3"> Weight:  {{ $data->weight}}</b> Kg <br>
+                               <b class="h3"> Height: {{ $data->height}} </b> cm<br>
+                               <b class="h3"> BMI: {{ $data->weight / ($data->height/$data->height * 10000)}}</b> <br>
+                               <b class="h3"> Remarks: {{ $data->remarks}}</b>  <br>
+                               <b class="h3"> Diagnosis: {{ $data->diagnosis}}</b> <br>
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+                                
+                            </div>
+                            <!-- /.card-footer -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
                 </div>
+            </div> <!-- ./col -->
+            @endif
+            @endforeach
             </div>
-        </div>
-        @endforeach
-        @endif
 
-
-
-
-
-
-
+                 @if(!empty($healthObese))
+                @foreach ($healthObese as $tips)
+                    <div class="col-md-3 lg-3 sm-3 mb-4">
+                        <div class="card">
+                            <div class="card-header"><b>Watch Videos  </b></div>
+                            <div class="embed-responsive embed-responsive-16by9">
+                                <iframe width="420" height="315" src="{{$tips}}" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+                @endif
     </div>
-</div>
-
-
 </div>
 @endsection
