@@ -47,7 +47,7 @@
         <!-- Display MEdical Record -->
             @foreach($medrecord as $key => $data)
             @if ($medrecord->count() > 0 )
-            <div class="col-md-3 lg-3 sm-3 mb-4">
+            <div class="col-md-6 lg-6 sm-6 mb-4">
                 <div class="card">
                     <div class="card-body">
                         <div class="card card-primary">

@@ -51,30 +51,30 @@ class ChildListMedicalRecordsController extends Controller
     {
         
         //=======================================================================================bar chart for weight
-         $labelerCheckup = ChildMedicalData::select('checkup_followup')
+         $labelerCheckup = ChildMedicalData::select('*')
                     //->groupBy(\DB::raw("strftime('%d',checkup_followup)")) //un comment if sqlite
-                    ->groupBy('checkup_followup') //uncomment if mysql
+                    //->groupBy('checkup_followup') //uncomment if mysql
+                    ->where("child_id","=",$id)
                     ->orderBy('checkup_followup', 'ASC')
                     ->get(); 
-
         $cusLabelPerMonth = []; //create an empty array to store custom label
         foreach($labelerCheckup as $weight)
         {
              $month =   Carbon::parse($weight->checkup_followup)->format('M-d-Y');
              array_push($cusLabelPerMonth,$month);
         }
-
         $chartPieWeight = new ChildCharts();    //Extends Charts/UserLineChar/ class     
         $chartPieWeight->labels($cusLabelPerMonth);
-        $childWeight = ChildMedicalData::select('weight')
-                    ->where('child_id', '=', $id)
+        $childWeight = ChildMedicalData::select('*')
                     //->groupBy(\DB::raw("strftime('%d',checkup_followup)")) //uncomment if sqlite
-                    ->groupBy('checkup_followup') //uncomment if mysql
+                    ->where('child_id', '=', $id)
+                    //->groupBy('checkup_followup') //uncomment if mysql
                     ->pluck('weight');
         $chartPieWeight->dataset('Child Weight', 'bar',$childWeight)
         ->options([
             'fill' => 'true',
-            'borderColor' => '#51C1C0'
+            'borderColor' => '#51C1C0',
+            'animation'=> 'false'
         ])
         ->color(collect(['#7d5fff','#32ff7e', '#ff4d4d','#8C1C51','#48DBCC','#D6E785']))
         ->backgroundColor(collect(['#7158e2','#3ae374', '#ff3838','#8C1C51','#48DBCC','#D6E785']));
@@ -83,9 +83,9 @@ class ChildListMedicalRecordsController extends Controller
         // =======================================================================================line chart for remarks
         $labelerRemarks = ChildMedicalData::select('*')
                     ->groupBy('remarks')
-                    // ->orderBy('checkup_followup', 'ASC')
+                    ->orderBy('checkup_followup', 'ASC')
+                    ->where("child_id", '=', $id )
                     ->get(); 
-
         $cusLabelPerRemarks = []; //create an empty array to store custom label
         foreach($labelerRemarks as $child)
         {
@@ -94,15 +94,15 @@ class ChildListMedicalRecordsController extends Controller
             //  array_push($cusLabelPerRemarks,$month);
         }
 
-        $chartPieRemarks = new ChildCharts();    //Extends Charts/UserLineChar/ class     
+        $chartPieRemarks = new ChildCharts(); 
+           //Extends Charts/UserLineChar/ class     
         $chartPieRemarks->labels($cusLabelPerRemarks); //array contains of custom of labels
-
-        $childRemarks = ChildMedicalData::select(\DB::raw("COUNT(remarks) as count"))
+        
+        $childRemarks = ChildMedicalData::select(\DB::raw("COUNT('remarks') as count"))
             ->where('child_id', '=', $id)
-            ->groupBy('remarks') //uncomment if using mysql
-            //->groupBy(\DB::raw('remarks')) //uncomment if using sqlite                     
-            ->pluck('count');  
-
+            ->groupBy('remarks')                  
+            ->pluck('count');
+        
         $chartPieRemarks->dataset('Child BMI', 'pie',$childRemarks)
         ->options([
             'fill' => 'true',

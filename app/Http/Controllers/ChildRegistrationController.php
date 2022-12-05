@@ -84,42 +84,41 @@ class ChildRegistrationController extends Controller
 
          $childId = Child::find(Auth::user()->id);
 
-        //  bar chart for weight
-         $labelerCheckup = ChildMedicalData::select('checkup_followup')
+        //=======================================================================================bar chart for weight
+         $labelerCheckup = ChildMedicalData::select('*')
                     //->groupBy(\DB::raw("strftime('%d',checkup_followup)")) //un comment if sqlite
-                    ->groupBy('checkup_followup') //uncomment if mysql
+                    //->groupBy('checkup_followup') //uncomment if mysql
+                    ->where("child_id","=",$childId->id)
                     ->orderBy('checkup_followup', 'ASC')
                     ->get(); 
-
         $cusLabelPerMonth = []; //create an empty array to store custom label
         foreach($labelerCheckup as $weight)
         {
              $month =   Carbon::parse($weight->checkup_followup)->format('M-d-Y');
              array_push($cusLabelPerMonth,$month);
         }
-
         $chartPieWeight = new ChildCharts();    //Extends Charts/UserLineChar/ class     
         $chartPieWeight->labels($cusLabelPerMonth);
-        $childWeight = ChildMedicalData::select('weight')
-                    ->where('child_id', '=', $childId->id)
+        $childWeight = ChildMedicalData::select('*')
                     //->groupBy(\DB::raw("strftime('%d',checkup_followup)")) //uncomment if sqlite
+                    ->where('child_id', '=', $childId->id)
                     //->groupBy('checkup_followup') //uncomment if mysql
                     ->pluck('weight');
-        $chartPieWeight->dataset('Child Weight', 'bar',$childWeight)
+        $chartPieWeight->dataset('Child Weight', 'line',$childWeight)
         ->options([
             'fill' => 'true',
             'borderColor' => '#51C1C0'
         ])
         ->color(collect(['#7d5fff','#32ff7e', '#ff4d4d','#8C1C51','#48DBCC','#D6E785']))
         ->backgroundColor(collect(['#7158e2','#3ae374', '#ff3838','#8C1C51','#48DBCC','#D6E785']));
-        //end of bar chart
+        // =======================================================================================end of bar chart
 
-        //  line chart for remarks
-        $labelerRemarks = ChildMedicalData::select('remarks')
+        // =======================================================================================line chart for remarks
+        $labelerRemarks = ChildMedicalData::select('*')
                     ->groupBy('remarks')
-                    // ->orderBy('checkup_followup', 'ASC')
+                    ->orderBy('checkup_followup', 'ASC')
+                    ->where("child_id", '=', $childId->id )
                     ->get(); 
-
         $cusLabelPerRemarks = []; //create an empty array to store custom label
         foreach($labelerRemarks as $child)
         {
@@ -128,15 +127,15 @@ class ChildRegistrationController extends Controller
             //  array_push($cusLabelPerRemarks,$month);
         }
 
-        $chartPieRemarks = new ChildCharts();    //Extends Charts/UserLineChar/ class     
+        $chartPieRemarks = new ChildCharts(); 
+           //Extends Charts/UserLineChar/ class     
         $chartPieRemarks->labels($cusLabelPerRemarks); //array contains of custom of labels
-
-        $childRemarks = ChildMedicalData::select(\DB::raw("COUNT(remarks) as count"))
+        
+        $childRemarks = ChildMedicalData::select(\DB::raw("COUNT('remarks') as count"))
             ->where('child_id', '=', $childId->id)
-            ->groupBy('remarks') //uncomment if using mysql
-            //->groupBy(\DB::raw('remarks')) //uncomment if using sqlite                     
-            ->pluck('count');  
-
+            ->groupBy('remarks')                  
+            ->pluck('count');
+        
         $chartPieRemarks->dataset('Child BMI', 'pie',$childRemarks)
         ->options([
             'fill' => 'true',
@@ -144,8 +143,10 @@ class ChildRegistrationController extends Controller
         ])
         ->color(collect(['#7d5fff','#32ff7e', '#ff4d4d','#8C1C51','#48DBCC','#D6E785']))
         ->backgroundColor(collect(['#7158e2','#3ae374', '#ff3838','#8C1C51','#48DBCC','#D6E785']));
-        //end of pi chart
+        // =========================================================================================end of pi chart
         
+        // =========================================================================================medical record
+       
 
           //medical record
         $medrecord = ChildMedicalData::select("*")
@@ -153,7 +154,7 @@ class ChildRegistrationController extends Controller
             ->get();
 
         //get all  remarks associated with child
-            $remarks = DB::table('child_medical_data')
+        $remarks = DB::table('child_medical_data')
                 ->select('remarks','child_id')
                 ->join('children', 'children.id', '=', 'child_medical_data.child_id')
                 ->where('child_id','=', $childId->id)
@@ -164,7 +165,10 @@ class ChildRegistrationController extends Controller
                 $healthTips = HealthTips::select('*')
                 ->where('content', 'LIKE', "%" . $data->remarks . "%")
                 ->get();
-             array_push($healthTipsUrl,$healthTips['1']->url);
+            if (!$healthTips->empty()) {
+                array_push($healthTipsUrl, $healthTips['0']->url);
+            }
+            
         }
         // dd($healthTipsUrl);
         return view('app.login_children.index',[

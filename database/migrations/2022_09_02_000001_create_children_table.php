@@ -22,6 +22,8 @@ class CreateChildrenTable extends Migration
             $table->string('mothersName');
             $table->string('address');
             $table->string('phone');
+            $table->string('username');
+            $table->string('password');
 
             $table->timestamps();
         });
