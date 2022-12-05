@@ -152,52 +152,19 @@ class ChildRegistrationController extends Controller
             ->where("child_id",'=',$childId->id)
             ->get();
 
-
-        //to work on tommorow need to fixl,
-        // $medrecordRemarks = ChildMedicalData::select("*")
-        //     ->where("child_id",'=',$childId->id)
-        //     ->get();
-
-        // dd($medrecordRemarks[2]->remarks);
-
-        //Retirieved suggested meals based on recommendation
-        //  $healthObese = HealthTips::select('*')
-        //     ->where('description',"LIKE","%" .  $remarks->$remarks  . "%")
-        //     ->get();
-
-        // $health = DB::table('child_medical_data')
-        //     ->select('remarks','child_id')
-        //     ->join('children', 'children.id', '=', 'child_medical_data.child_id')
-        //     ->where('child_id', $childId->id)
-        //     ->get();
-
         //get all  remarks associated with child
             $remarks = DB::table('child_medical_data')
                 ->select('remarks','child_id')
                 ->join('children', 'children.id', '=', 'child_medical_data.child_id')
                 ->where('child_id','=', $childId->id)
                 ->get();
-
-            // $healthTips = DB::table('health_tips')
-            // ->select('*' )
-            // ->join('child_medical_data', 'child_medical_data.child_id', '=', 'children.id')
-            // ->join('children', 'children.id', '=', 'child_medical_data.child_id')
-            // ->where('child_id','=', $childId->id)
-            // ->get();
-            // foreach($remarks as $data){
-            //     // $healthTips = HealthTips::select('*')
-            //     // ->where('content', 'LIKE', "%" . $data->remarks . "%")
-            //     // ->get();
-            // print_r($data->remarks);
-            // }
-
         $healthTipsUrl = []; //create an empty array to store custom label
         foreach($remarks as $data)
         {
                 $healthTips = HealthTips::select('*')
                 ->where('content', 'LIKE', "%" . $data->remarks . "%")
                 ->get();
-             array_push($healthTipsUrl,$healthTips[0]->url);
+             array_push($healthTipsUrl,$healthTips['0']->url);
         }
         // dd($healthTipsUrl);
         return view('app.login_children.index',[
