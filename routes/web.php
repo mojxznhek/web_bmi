@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TipsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -102,6 +103,9 @@ Route::group(['middleware' => 'auth:web','auth'], function () {
         Route::resource('health-categories', HealthCategoryController::class);
         Route::resource('rhu-bhws', RhuBhwController::class);
         Route::resource('users', UserController::class);
+        
+        // get suggestions route
+        Route::post('/getSuggestions', [TipsController::class, 'showSuggestions'])->name('suggestions');
     });
 
 /*

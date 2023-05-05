@@ -20,7 +20,7 @@
                             Height:<span>{{ $data->height}}</span> <br>
                             BMI:<span>{{ $data->weight / ($data->height/$data->height * 10000)}}</span> <br>
                             Remarks:<span>{{ $data->remarks}}</span> <br>
-                            Diagnosis:<span>{{ $data->diagnosis}}</span> <br>
+                            Suggestions:<span>{{ $data->diagnosis}}</span> <br>
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
@@ -76,7 +76,7 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <img src="{{url('img/bmi_chart.jpg') }}" class="rounded mx-auto d-block w-75 h-25"><br>
+                    <img src="{{url('img/child_bmi.png') }}" class="rounded mx-auto d-block w-75 h-25"><br>
                     <span>https://aljism-arabic.blogspot.com/2017/03/bmi-chart-in-kg-and-cm-for-child.html</span>
                     <p>Body mass index (BMI) is a person’s weight in kilograms divided by the square of height in
                         meters. It is an inexpensive and easy way to screen for weight categories that may lead to

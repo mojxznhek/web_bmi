@@ -125,4 +125,6 @@ class HealthTipsController extends Controller
             ->route('all-health-tips.index')
             ->withSuccess(__('crud.common.removed'));
     }
+
+   
 }

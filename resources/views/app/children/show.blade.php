@@ -40,7 +40,7 @@
                     <span>{{ $child->phone ?? '-' }}</span>
                 </div>
                 <div class="mb-4">
-                    <h5>@lang('crud.children.inputs.address')</h5>
+                    <h5>Zone</h5>
                     <span>{{ $child->address ?? '-' }}</span>
                 </div>
             </div>

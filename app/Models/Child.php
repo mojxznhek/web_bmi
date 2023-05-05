@@ -15,7 +15,7 @@ class Child extends Authenticatable
     use Searchable;
     use Notifiable;
 
-      protected $guarded = [];
+    protected $guarded = [];
 
      public function setPasswordAttribute($value)
     {

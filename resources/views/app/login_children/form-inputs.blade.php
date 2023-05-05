@@ -56,7 +56,7 @@
     </x-inputs.group>
 
     <x-inputs.group class="col-sm-12 col-lg-9">
-        <x-inputs.text name="address" label="Address" :value="old('address', ($editing ? $child->address : ''))"
+        <x-inputs.text name="address" label="Zone" :value="old('address', ($editing ? $child->address : ''))"
             maxlength="255" placeholder="Address" required></x-inputs.text>
     </x-inputs.group>
 

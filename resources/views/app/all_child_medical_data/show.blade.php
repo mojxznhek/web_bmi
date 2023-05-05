@@ -38,7 +38,7 @@
                     <span>{{ $childMedicalData->remarks ?? '-' }}</span>
                 </div>
                 <div class="mb-4">
-                    <h5>@lang('crud.child_check_up_infos.inputs.diagnosis')</h5>
+                    <h5>Suggestions</h5>
                     <span>{{ $childMedicalData->diagnosis ?? '-' }}</span>
                 </div>
                 <div class="mb-4">

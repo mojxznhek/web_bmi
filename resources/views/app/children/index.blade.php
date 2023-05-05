@@ -66,7 +66,7 @@
                                 @lang('crud.children.inputs.phone')
                             </th>
                             <th class="text-left">
-                                @lang('crud.children.inputs.address')
+                                Zone
                             </th>
                             <th class="text-center">
                                 @lang('crud.common.actions')

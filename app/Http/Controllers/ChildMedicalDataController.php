@@ -66,6 +66,10 @@ class ChildMedicalDataController extends Controller
             ->withSuccess(__('crud.common.created'));
     }
 
+
+    // get suggestions from database
+   
+
     /**
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\ChildMedicalData $childMedicalData

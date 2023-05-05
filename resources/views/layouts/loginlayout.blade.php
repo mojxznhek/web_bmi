@@ -30,11 +30,7 @@
         <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
         
         <!-- Small Ionicons Fixes for AdminLTE -->
-        <style>
-        .nav-icon.icon:before {
-            width: 25px;
-        }
-        </style>
+
 
         
         <script type="module">
