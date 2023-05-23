@@ -32,7 +32,7 @@ class ChildStoreRequest extends FormRequest
             'phone' => ['required', 'max:255', 'string'],
             'address' => ['required', 'max:255', 'string'],
             'username' => [ 'unique:children,username', 'max:255', 'string'],
-            'password' => ['required', 'max:255', 'string','same:confirm-password'],            
+            'password' => ['required', 'max:255', 'string','same:confirm-password'],          
         ];
     }
 }

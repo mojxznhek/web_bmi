@@ -26,11 +26,12 @@
     </head>
     <body>
         <label class="h2 pl-5 pt-5">Thank you for registering</label>
-                <p class="pl-5">
-                    You can now login and view your child information 
+                <p class="pl-5 justify-center">
+                    You can now login and view your child information
+                     <a href="{{ route('login-form') }}" class="text-sm text-yellow-700 underline">Login here </a> 
                 </p>    
             </div>
-        <img src="{{url('img/front.jpg')}}" class="justify-center">
+        <!-- <img src="{{url('img/front.jpg')}}" class="justify-center"> -->
         <div class="relative flex items-top justify-center sm:items-center py-4 sm:pt-0">
             @if (Route::has('login'))
                 <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
@@ -39,13 +40,13 @@
                     @else
                         <!-- <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 btn btn-outline-primary pl-5 pr-5">Log in</a> -->
                        
-                        @if (Route::has('register'))
-                            <a href="{{ route('login-form') }}" class="ml-4 text-xl text-white dark:text-white btn btn-primary">Login</a>
-                        @endif
+                       <!--  @if (Route::has('register'))
+                            <a href="{{ route('login-form') }}" class="ml-4 text-xl text-white dark:text-white btn btn-primary">Login </a>
+                        @endif -->
                         
-                        @if (Route::has('register'))
+                      <!--   @if (Route::has('register'))
                             <a href="{{ route('register') }}" class="ml-4 text-xl text-gray-900 dark:text-grey-900 btn btn-warning">Register your Child</a>
-                        @endif
+                        @endif -->
                         
                     @endauth
                 </div>

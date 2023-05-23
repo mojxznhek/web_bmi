@@ -25,7 +25,6 @@ class ChildMedicalDataController extends Controller
             ->latest()
             ->paginate(5)
             ->withQueryString();
-
         return view(
             'app.all_child_medical_data.index',
             compact('allChildMedicalData', 'search')
@@ -68,7 +67,7 @@ class ChildMedicalDataController extends Controller
 
 
     // get suggestions from database
-   
+
 
     /**
      * @param \Illuminate\Http\Request $request

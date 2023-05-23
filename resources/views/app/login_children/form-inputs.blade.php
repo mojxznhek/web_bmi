@@ -1,7 +1,7 @@
 @php $editing = isset($child) @endphp
-
 <div class="row">
-    <x-inputs.group class="col-sm-12">
+    <div class="col col-lg-6">
+         <x-inputs.group class="col col-lg-12 col-sm-12">
         <div x-data="imageViewer('{{ $editing && $child->photo ? \Storage::url($child->photo) : '' }}')">
             <x-inputs.partials.label name="photo" label="Photo"></x-inputs.partials.label><br />
             <!-- Show the image -->
@@ -18,48 +18,49 @@
             <div class="mt-2">
                 <input type="file" name="photo" id="photo" @change="fileChosen" />
             </div>
-
             @error('photo') @include('components.inputs.partials.error')
             @enderror
         </div>
     </x-inputs.group>
-
     <x-inputs.group class="col-sm-12">
         <x-inputs.text name="completename" label="Childs Complete Name"
             :value="old('completename', ($editing ? $child->completename : ''))" maxlength="50"
             placeholder="Child's Complete Name" required></x-inputs.text>
     </x-inputs.group>
 
-    <x-inputs.group class="col-sm-12 col-lg-6">
+    <x-inputs.group class="col-lg-6">
         <x-inputs.date name="dob" label="Date Of Birth"
             value="{{ old('dob', ($editing ? optional($child->dob)->format('Y-m-d') : '')) }}" max="255" required>
         </x-inputs.date>
     </x-inputs.group>
 
-    <x-inputs.group class="col-sm-12 col-lg-6">
+    <x-inputs.group class="col-sm-12">
         <x-inputs.select name="gender" label="Gender">
             @php $selected = old('gender', ($editing ? $child->gender : '')) @endphp
             <option value="male" {{ $selected == 'male' ? 'selected' : '' }}>Male</option>
             <option value="female" {{ $selected == 'female' ? 'selected' : '' }}>Female</option>
         </x-inputs.select>
     </x-inputs.group>
+  
+  
 
-    <x-inputs.group class="col-sm-12">
+</div>
+    <div class="col col-lg-6">
+          <x-inputs.group class="col-sm-12">
         <x-inputs.text name="mothersName" label="Mothers Full Name"
             :value="old('mothersName', ($editing ? $child->mothersName : ''))" maxlength="255"
             placeholder="Mothers Full Name" required></x-inputs.text>
     </x-inputs.group>
 
-    <x-inputs.group class="col-sm-12 col-lg-3">
+          <x-inputs.group class="col-sm-12 col-lg-12">
         <x-inputs.text name="phone" label="Phone" :value="old('phone', ($editing ? $child->phone : ''))" max="255"
             placeholder="Phone" required></x-inputs.text>
     </x-inputs.group>
 
-    <x-inputs.group class="col-sm-12 col-lg-9">
-        <x-inputs.text name="address" label="Zone" :value="old('address', ($editing ? $child->address : ''))"
-            maxlength="255" placeholder="Address" required></x-inputs.text>
+    <x-inputs.group class="col-sm-12 col-lg-12">
+        <x-inputs.text name="address" label="Zone Address" :value="old('address', ($editing ? $child->address : ''))"
+            maxlength="255" placeholder="Zone Address " required></x-inputs.text>
     </x-inputs.group>
-
     <x-inputs.group class="col-sm-12 col-lg-12">
         <x-inputs.text name="username" label="Username" :value="old('username', ($editing ? $child->username : ''))"
             maxlength="255" placeholder="Username" required></x-inputs.text>
@@ -74,4 +75,6 @@
         <x-inputs.password name="confirm-password" label="Confirm Password" :value="old('confirm-password', ($editing ? $child->confirm : ''))"
             maxlength="255" placeholder="Confirm Password" required></x-inputs.password>
     </x-inputs.group>
+    </div>
+  
 </div>

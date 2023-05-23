@@ -42,21 +42,22 @@ class LoginController extends Controller
         // $this->middleware('guest:child')->except('logout'); 
     }
 
-      public function parentLogin(Request $request)
+    public function parentLogin(Request $request)
     {
         $this->validator($request);
         $credentials = $request->only('username', 'password');
 
-      
-        //$credentials = $request->only('email', 'password'); //use if email authentication is used
-         if (Auth::guard('child')->attempt($credentials, $request->get('remember'))){
-            return redirect()->intended('/parent/home');
-        }else{
-            //  $status = 'Password credentials do not match our records.';  
-             return back()->withInput($request->only('username', 'remember'));
+        //  $credentials = $request->only('email', 'password'); //use if email authentication is used
+        if (Auth::guard('child')->attempt($credentials, $request->get('remember'))) {
+            // dd('parent login');
+            return redirect()->intended('parent-home');
+            // return route('parent-home');
+        } else {
+            //  $status = 'Password credentials do not match our records.'; 
+            return back()->withInput($request->only('username', 'remember'));
         }
     }
-    
+
     public function showParentLoginForm()
     {
         return view('app.login_children.login', ['url' => 'child-access']);
@@ -68,17 +69,17 @@ class LoginController extends Controller
         //validation rules.
         $rules = [
             //'email'    => 'required|email|exists:students|min:5|max:191', use it if email authentication used
-            'username'    => 'required|string|exists:children|min:5|max:11',
+            'username' => 'required|string|exists:children|min:5|max:11',
             'password' => 'required|string|min:5|max:255|',
         ];
-        
+
         //custom validation error messages.
         $messages = [
             //'email.exists' => 'These credentials do not match our records.',
             'username.exists' => 'These credentials do not match our records.',
         ];
-        
+
         //validate the request.
-        $request->validate($rules,$messages);
+        $request->validate($rules, $messages);
     }
 }

@@ -32,6 +32,14 @@
                 </li>
                 @endcan
 
+                
+                <li class="nav-item">
+                    <a href="{{ route('parent.index') }}" class="nav-link">
+                        <i class="nav-icon icon ion-md-man"></i>
+                        <p>Parent</p>
+                    </a>
+                </li>
+
                 @can('view-any', App\Models\ChildMedicalData::class)
                 <li class="nav-item">
                     <a href="{{ route('all-child-medical-data.index') }}" class="nav-link">

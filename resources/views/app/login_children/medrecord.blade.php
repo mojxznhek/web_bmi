@@ -5,18 +5,17 @@
     <div class="row">
         @foreach($medrecord as $key => $data)
         @if ($medrecord->count() > 0 )
-        <div class="col col-6">
+        <div class="col col-12">
             <div class="card colapsed-card">
                 <div class="card-body">
                     <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">Medical Record</h3>
-
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
                             Date of Checkup:<span>{{ $data->checkup_followup}}</span><br>
-                            Weight:<span>{{ $data->weight}}</span> <br>
+                            Weight:</span><span>{{ $data->weight}}</span> <br>
                             Height:<span>{{ $data->height}}</span> <br>
                             BMI:<span>{{ $data->weight / ($data->height/$data->height * 10000)}}</span> <br>
                             Remarks:<span>{{ $data->remarks}}</span> <br>

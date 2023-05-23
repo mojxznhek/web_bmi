@@ -1,7 +1,7 @@
 @php $editing = isset($childMedicalData) @endphp
 
 <div class="row">
-    <x-inputs.group class="col-sm-12">
+    <x-inputs.group class="col-sm-12 col-lg-12">
         <x-inputs.select name="child_id" label="Complete Name of Child" required>
             @php $selected = old('child_id', ($editing ? $childMedicalData->child_id : '')) @endphp
             <option disabled {{ empty($selected) ? 'selected' : '' }}>Please select the Child</option>
@@ -58,11 +58,6 @@
     </x-inputs.group>
     <span id="userList"></span>
 </div>
-</div>
-</div>
-</div>
-</div>
-
 
 
 <script>

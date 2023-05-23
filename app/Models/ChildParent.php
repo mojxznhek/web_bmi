@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Child extends Authenticatable
+class ChildParent extends Authenticatable
 {
     
     use HasFactory;
@@ -25,24 +25,14 @@ class Child extends Authenticatable
 
     protected $fillable = [
         'completename',
-        'photo',
-        'dob',
-        'gender',
-        'mothersName',
-        'address',
-        'phone',
         'username',
-        'password'
+        'password',
     ];
 
-    protected $searchableFields = ['*'];
+    // protected $searchableFields = ['*'];
 
-    protected $casts = [
-        'dob' => 'date',
-    ];
-
-    public function childCheckUpInfos()
-    {
-        return $this->hasMany(ChildMedicalData::class, 'child_id');
-    }
+    // public function childCheckUpInfos()
+    // {
+    //     return $this->hasMany(ChildMedicalData::class, 'child_id');
+    // }
 }

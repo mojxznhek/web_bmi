@@ -41,10 +41,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        
+
         'child' => [
             'driver' => 'session',
-            'provider' => 'child',
+            'provider' => 'child_login',
         ],
 
         'api' => [
@@ -76,7 +76,7 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-            'child' => [
+        'child_login' => [
             'driver' => 'eloquent',
             'model' => App\Models\Child::class,
         ],
