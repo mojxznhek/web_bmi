@@ -23,16 +23,16 @@
                 </li>
                 <li class="nav-header">Child Data</li>
 
-                @can('view-any', App\Models\Child::class)
+                <!-- @can('view-any', App\Models\Child::class) -->
                 <li class="nav-item">
                     <a href="{{ route('children.index') }}" class="nav-link">
                         <i class="nav-icon icon ion-md-man"></i>
                         <p>Child</p>
                     </a>
                 </li>
-                @endcan
+                <!-- @endcan -->
 
-                
+
                 <li class="nav-item">
                     <a href="{{ route('parent.index') }}" class="nav-link">
                         <i class="nav-icon icon ion-md-man"></i>
@@ -40,51 +40,51 @@
                     </a>
                 </li>
 
-                @can('view-any', App\Models\ChildMedicalData::class)
+                <!-- @can('view-any', App\Models\ChildMedicalData::class) -->
                 <li class="nav-item">
                     <a href="{{ route('all-child-medical-data.index') }}" class="nav-link">
                         <i class="nav-icon icon ion-md-body"></i>
                         <p>Child Medical Data</p>
                     </a>
                 </li>
-                @endcan
+                <!-- @endcan -->
                 <li class="nav-header">Health Tips</li>
-                @can('view-any', App\Models\HealthCategory::class)
+                <!-- @can('view-any', App\Models\HealthCategory::class) -->
                 <li class="nav-item">
                     <a href="{{ route('health-categories.index') }}" class="nav-link">
                         <i class="nav-icon icon ion-md-pricetag"></i>
                         <p>Health Categories</p>
                     </a>
                 </li>
-                @endcan
+                <!-- @endcan -->
 
-                @can('view-any', App\Models\HealthTips::class)
+                <!-- @can('view-any', App\Models\HealthTips::class) -->
                 <li class="nav-item">
                     <a href="{{ route('all-health-tips.index') }}" class="nav-link">
                         <i class="nav-icon icon ion-logo-youtube"></i>
                         <p>All Health Tips</p>
                     </a>
                 </li>
-                @endcan
-                @can('view-any', App\Models\RhuBhw::class)
+                <!-- @endcan
+                @can('view-any', App\Models\RhuBhw::class) -->
                 <li class="nav-item">
                     <a href="{{ route('rhu-bhws.index') }}" class="nav-link">
                         <i class="nav-icon icon ion-md-woman"></i>
                         <p>RHU - Barangay Health Workers</p>
                     </a>
                 </li>
-                @endcan
+                <!-- @endcan -->
 
                 <li class="nav-header">System</li>
 
-                @can('view-any', App\Models\User::class)
+                <!-- @can('view-any', App\Models\User::class) -->
                 <li class="nav-item">
                     <a href="{{ route('users.index') }}" class="nav-link">
                         <i class="nav-icon icon ion-md-people"></i>
                         <p>Users</p>
                     </a>
                 </li>
-                @endcan
+                <!-- @endcan -->
 
                 @endauth
 

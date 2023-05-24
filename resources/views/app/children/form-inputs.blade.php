@@ -50,10 +50,19 @@
     </x-inputs.group>
 
 
-    <x-inputs.group class="col-sm-12">
+    <!-- <x-inputs.group class="col-sm-12">
         <x-inputs.text name="mothersName" label="Mothers Full Name"
             :value="old('mothersName', ($editing ? $child->mothersName : ''))" maxlength="255"
             placeholder="Mothers Full Name" required></x-inputs.text>
+    </x-inputs.group> -->
+
+    <x-inputs.group class="col-sm-12 col-lg-12">
+        <x-inputs.select name="mothersName" label="Mothers Complete Name">
+            @php $selected = old('mothersName', ($editing ? $child->mothersName : '')) @endphp
+            @foreach ($allparents as $cparent )
+            <option value="{{ $cparent->completename }} ">{{$cparent->completename}}</option>
+            @endforeach
+        </x-inputs.select>
     </x-inputs.group>
 
     <x-inputs.group class="col-sm-12 col-lg-3">

@@ -19,7 +19,7 @@
               </div>
           </div>
       </div>
-      <a href="{{route('parent-home')}}">Back to Home</a>
+      <a href="{{route('parent-home')}}" class="btn btn-warning my-2">Back to Home</a>
       <div class="col-lg-12">
           <div class="card">
               <div style="width: 80%; height:25%;  margin: 0 auto;">

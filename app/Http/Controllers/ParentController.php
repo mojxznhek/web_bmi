@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Child;
 use Illuminate\Http\Request;
 use App\Models\ChildParent;
 
@@ -36,7 +37,21 @@ class ParentController extends Controller
      */
     public function store(Request $request)
     {
-        dd('Saving in children table');
+        $validated = [
+            'completename' => $request['completename'],
+            'dob' => $request['dob'],
+            'gender' => $request['gender'],
+            'mothersName' => $request['mothers'],
+            'address' => $request['address'],
+            'phone' => $request['phone'],
+
+        ];
+
+        $user = Child::create($validated);
+
+        return redirect()
+            ->route('parent-home')
+            ->withSuccess(__('crud.common.created'));
     }
 
     /**

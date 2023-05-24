@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\ChildStoreRequest;
 use App\Http\Requests\ChildUpdateRequest;
+use App\Models\ChildParent;
 
 class ChildController extends Controller
 {
@@ -16,6 +17,8 @@ class ChildController extends Controller
      */
     public function index(Request $request)
     {
+
+
         $this->authorize('view-any', Child::class);
 
         $search = $request->get('search', '');
@@ -35,7 +38,10 @@ class ChildController extends Controller
     public function create(Request $request)
     {
         $this->authorize('create', Child::class);
-        return view('app.children.create');
+        $allparents = ChildParent::select('completename')->get();
+        // dd($allparents);
+        // dd($allparents);
+        return view('app.children.create', compact('allparents'));
     }
 
     /**
@@ -78,8 +84,9 @@ class ChildController extends Controller
     public function edit(Request $request, Child $child)
     {
         $this->authorize('update', $child);
-
-        return view('app.children.edit', compact('child'));
+        $this->authorize('create', Child::class);
+        $allparents = ChildParent::select('completename')->get();
+        return view('app.children.edit', compact('child', 'allparents'));
     }
 
     /**

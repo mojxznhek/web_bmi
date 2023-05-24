@@ -49,6 +49,11 @@
                                   <option value="female">Female</option>
                               </x-inputs.select>
                           </x-inputs.group>
+                          <input type="text" name="mothers" hidden value="{{Auth::user()->mothersName}}">
+                          <input type="text" name="phone" hidden value="{{Auth::user()->phone}}">
+                          <input type="text" name="address" hidden value="{{Auth::user()->address}}">
+                          <input type="text" name="username" hidden value="{{Auth::user()->username}}">
+                          <input type="text" name="password" hidden value="{{Auth::user()->password}}">
                           <button class="btn btn-primary">Save</button>
                       </form>
                   </div>

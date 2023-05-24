@@ -38,7 +38,7 @@
             {!! $childPieRemarks->script() !!}
         </div> -->
     </div>
-    <a href="{{route('addchild.create')}}">Add Another Child</a>
+    <a href="{{route('addchild.create')}}" class="btn btn-primary my-4">Add Another Child</a>
     <!-- my kids data -->
     <section class="content">
         <div class="container-fluid">
